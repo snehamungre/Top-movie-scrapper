@@ -27,11 +27,15 @@ def get_top_movies(year):
     for divItem in movieList:
         div = divItem.find('div', attrs={'class': 'lister-item-content'})
         header = div.findChildren('h3', attrs={'class': 'lister-item-header'})
+        title = (header[0].findChildren('a'))[0].contents[0].encode('utf-8').decode('ascii', 'ignore')
+        genre = ((div.findChildren('p'))[0].findChildren('span', attrs={'class': 'genre'}))[0].string
         ratingBar = div.findChildren('div', attrs={'class': 'ratings-bar'})
         rating = ratingBar[0].findChildren('div', attrs={'class': 'inline-block ratings-imdb-rating'})
         print(str(i) + ". " +
-              str((header[0].findChildren('a'))[0].contents[0].encode('utf-8').decode('ascii', 'ignore')) + " - " +
-              str((rating[0].findChildren('strong'))[0].contents[0].encode('utf-8').decode('ascii', 'ignore')))
+              str(title) + " - " +
+              str((rating[0].findChildren('strong'))[0].contents[0].encode('utf-8').decode('ascii', 'ignore'))
+              + "    " + str(genre))
+
         i += 1
 
 
@@ -64,4 +68,3 @@ if __name__ == '__main__':
         else:
             print("Give a range of years? Start and then the end")
     get_top_movies_range(start, end)
-
